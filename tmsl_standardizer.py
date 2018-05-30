@@ -5,7 +5,7 @@
 __author__      = "Gage Renzi"
 __copyright__   = "Copyright 2009, Planet Earth"
 __license__ = "GPLv3"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 import json
 import click
@@ -60,7 +60,7 @@ def main(infile, outfile):
             standardize_percentiles(col)
     
     #save output pretty printed, 2 spaces is what visual studio does
-    outfile.write(json.dumps(model, indent=2, sort_keys=True))
+    outfile.write(json.dumps(model, indent=2, sort_keys=False))
 
 if __name__ == '__main__':
     main()
