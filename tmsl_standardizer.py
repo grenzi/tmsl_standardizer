@@ -40,7 +40,7 @@ def standardize_column_date_format(col):
 
 def standardize_measure_date_format(m):    
     if 'date' in m['name'].lower():
-        logger.info('Date Standardizing Measure {0}'.format(col['name']))
+        logger.info('Date Standardizing Measure {0}'.format(m['name']))
         m['formatString']= 'Short Date'
         m['annotations']=[
               {
@@ -51,7 +51,7 @@ def standardize_measure_date_format(m):
 
 def standardize_column_whole_number_commas(col):
     if col['dataType']=='int64':
-        logger.info('Whole Number Standardizing Column {0}'.format(col['name'])
+        logger.info('Whole Number Standardizing Column {0}'.format(col['name']))
         col['formatString']= '#,0;(-#,0)'
 
 def standardize_column_percentiles(col):
@@ -61,7 +61,7 @@ def standardize_column_percentiles(col):
 
 def standardize_measure_percentiles(m):
     if '%' in m['name']:
-        logger.info('Percentile Standardizing Measure {0}'.format(col['name']))
+        logger.info('Percentile Standardizing Measure {0}'.format(m['name']))
         m['formatString']= '0.0%;(-0.0%);0.0%'    
  
 
@@ -77,12 +77,12 @@ def main(infile, outfile):
 
     #iterate through tables and pass the columns off for each function to take a crack at
     for tab in model['model']['tables']:
-        for [col in tab['columns'] if col not in exclude_columns]:
+        for col in [ col for col in tab['columns'] if col['name'] not in exclude_columns]:
             standardize_column_date_format(col)
             standardize_column_whole_number_commas(col)
             standardize_column_percentiles(col)
         if 'measures' in tab.keys():
-            for [measure in tab['measures'] if measure not in exclude_measures]:
+            for measure in [measure for measure in tab['measures'] if measure['name'] not in exclude_measures]:
                 standardize_measure_date_format(measure)
                 standardize_measure_percentiles(measure)
     
